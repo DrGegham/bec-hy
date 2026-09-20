@@ -34,6 +34,7 @@ a{color:var(--link)}
 .cat-skills{--cat:var(--green);--cat-ink:var(--green-ink)}
 .cat-medicines{--cat:var(--amber);--cat-ink:var(--amber-ink)}
 .cat-reference{--cat:var(--slate);--cat-ink:var(--slate-ink)}
+.cat-abcde{--cat:var(--tile);--cat-ink:var(--tile-ink)}
 
 /* top bar */
 .bar{position:sticky;top:0;z-index:20;background:var(--tile);color:var(--tile-ink);padding-top:env(safe-area-inset-top)}
@@ -137,3 +138,31 @@ figure img{max-width:100%;height:auto;cursor:zoom-in;display:block;margin:0 auto
 .upd button{background:var(--amber);color:var(--amber-ink);border:0;border-radius:2rem;min-height:2.6rem;padding:.3rem 1.1rem;font-weight:700;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){ .catcard,.row,.tb{transition:transform .08s ease} .catcard:active,.row:active{transform:scale(.99)} }
 noscript{display:block;padding:1rem}
+
+/* ABCDE tiles on the home screen and the jump bar on the ABCDE page */
+.abcde{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem}
+.abcde a{display:grid;place-items:center;background:var(--tile);color:var(--tile-ink);border-radius:.8rem;min-height:4.6rem;text-decoration:none}
+.abcde b{font-size:2.5rem;line-height:1;font-weight:700}
+.abcde-more{display:inline-block;margin-top:.7rem;font-weight:700}
+.jump{position:sticky;top:calc(3.3rem + env(safe-area-inset-top));z-index:10;background:var(--paper);display:flex;gap:.4rem;padding:.5rem 0;margin:0 0 .3rem;border-bottom:1px solid var(--line)}
+.jump a{flex:1;min-height:2.6rem;display:grid;place-items:center;background:var(--tile);color:var(--tile-ink);border-radius:.6rem;font-weight:700;font-size:1.15rem;text-decoration:none}
+.doc h2{scroll-margin-top:7rem}
+/* tables and figure captions inside pages */
+.doc .tw{overflow-x:auto;margin:1rem 0}
+.doc table{width:100%;border-collapse:collapse;font-size:.95rem;background:var(--card);border:1px solid var(--line)}
+.doc th,.doc td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top;line-height:1.5}
+.doc th{background:var(--line);background:color-mix(in srgb,var(--cat) 22%,var(--card));font-weight:700}
+.doc td ul{margin:.1rem 0;padding-left:1.1rem}
+.doc td li{margin:.25rem 0}
+figcaption{font-size:.85rem;color:#4C6168;margin-top:.35rem;line-height:1.4}
+
+/* two-column comparison tables become stacked cards on narrow screens */
+@media (max-width:40rem){
+  .doc table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .doc table.stack,.doc table.stack tbody,.doc table.stack tr,.doc table.stack td{display:block;width:100%}
+  .doc table.stack{border:0;background:none}
+  .doc table.stack tr{border:1px solid var(--line);border-radius:.6rem;margin:.6rem 0;overflow:hidden;background:var(--card)}
+  .doc table.stack td{border:0;border-top:1px solid var(--line)}
+  .doc table.stack td:first-child{border-top:0;background:color-mix(in srgb,var(--cat) 12%,var(--card))}
+  .doc table.stack td::before{content:attr(data-label);display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:.2rem}
+}

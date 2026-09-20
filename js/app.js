@@ -53,6 +53,11 @@ function home() {
   var h = shell({ title: U.barTitle, noSearch: true }) + "<main>";
   h += '<p class="lead"><b>' + esc(U.appTitle) + "</b>" + esc(U.tagline) + "</p>";
   h += '<a class="searchbtn" href="#/search">' + I.search + "<span>" + esc(U.searchPlaceholder) + "</span></a>";
+  if (BY["s-ABCDE"]) {
+    h += '<h2 class="sec">' + esc(U.abcdeHeading) + '</h2><div class="abcde">';
+    D.abcdeWords.forEach(function (w) { h += '<a href="#/p/s-ABCDE/' + w[2] + '" aria-label="' + esc(w[0] + " – " + w[1]) + '"><b>' + esc(w[0]) + "</b></a>"; });
+    h += '</div><a class="abcde-more" href="#/p/s-ABCDE">' + esc(U.abcdeMore) + "</a>";
+  }
   h += '<h2 class="sec">' + esc(U.browse) + '</h2><div class="cats">';
   ORDER.forEach(function (c) {
     h += '<a class="catcard cat-' + c + '" href="#/list/' + c + '"><div><div class="t">' + esc(CATS[c].label) + '</div><div class="d">' + esc(CATS[c].desc) + '</div></div><span class="n">' + LIST[c].length + "</span>" + I.chev + "</a>";
@@ -81,6 +86,9 @@ function page(id, anchor) {
   h += '<div class="ph"><span class="chip">' + esc(CATS[p.cat].one) + "</span><h2>" + esc(p.title) + "</h2>";
   h += '<div class="tools"><button class="tb" id="save" aria-pressed="' + saved + '">' + I.star + "<span>" + esc(saved ? U.savedBtn : U.save) + "</span></button>";
   h += '<button class="tb" id="smaller" aria-label="' + esc(U.smaller) + '">A\u2212</button><button class="tb" id="larger" aria-label="' + esc(U.larger) + '">A+</button></div></div>';
+  if (id === "s-ABCDE") {
+    h += '<nav class="jump" aria-label="' + esc(U.jumpAria) + '">' + D.abcdeWords.map(function (w) { return '<a href="#/p/' + id + "/" + w[2] + '" aria-label="' + esc(w[1]) + '">' + esc(w[0]) + "</a>"; }).join("") + "</nav>";
+  }
   h += '<article class="doc">' + p.html + "</article>";
   h += '<div class="foot"><p>' + esc(U.footPage) + ' <a href="#/about">' + esc(U.footAbout) + "</a></p></div></main></div>";
   return h;
@@ -184,6 +192,12 @@ function wireSearch() {
 }
 function wirePage(id) {
   Array.prototype.forEach.call(document.querySelectorAll("img.fig"), function (im) { im.addEventListener("click", function () { zoom(im.src); }); });
+  Array.prototype.forEach.call(document.querySelectorAll(".jump a"), function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault(); var t = document.getElementById(a.getAttribute("href").split("/").pop());
+      if (t) t.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+  });
   var s = $("save");
   s.addEventListener("click", function () {
     var l = (sGet("saved", []) || []).slice(), i = l.indexOf(id);
