@@ -166,3 +166,15 @@ figcaption{font-size:.85rem;color:#4C6168;margin-top:.35rem;line-height:1.4}
   .doc table.stack td:first-child{border-top:0;background:color-mix(in srgb,var(--cat) 12%,var(--card))}
   .doc table.stack td::before{content:attr(data-label);display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:.2rem}
 }
+
+/* three-column tables (for example the Glasgow Coma Scale): fixed widths so the score column is never cut off */
+.doc table.tri{table-layout:fixed;font-size:.9rem}
+.doc table.tri th,.doc table.tri td{padding:.45rem .45rem;overflow-wrap:break-word}
+.doc table.tri th:first-child,.doc table.tri td:first-child{width:39%}
+.doc table.tri th:last-child,.doc table.tri td:last-child{width:3rem;text-align:center;font-weight:700}
+
+/* grouped tables: a group row (for example Eyes, Verbal, Motor), then response and score */
+.doc table.grouped{table-layout:fixed}
+.doc table.grouped th,.doc table.grouped td{padding:.5rem .6rem;overflow-wrap:break-word}
+.doc table.grouped th:last-child:not([colspan]),.doc table.grouped td:last-child{width:3.6rem;text-align:center;font-weight:700}
+.doc table.grouped tr.grp th{background:color-mix(in srgb,var(--cat) 22%,var(--card));text-align:left;font-weight:700}
